@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:game": "node dist/game/server/server.mjs",
-    "build:github": "ng build --configuration production --base-href https://sadegh-salari.github.io/"
+    "build:github": "ng build --configuration production --output-path docs --base-href https://sadegh-salari.github.io/"
   },
   "private": true,
   "dependencies": {
