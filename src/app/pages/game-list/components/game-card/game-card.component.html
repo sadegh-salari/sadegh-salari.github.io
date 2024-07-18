@@ -1,0 +1,27 @@
+<div
+  class="w-full md:w-40 overflow-hidden flex flex-wrap items-center group bg-gray-800 text-white md:rounded-xl justify-center"
+  (click)="gotoGame()"
+>
+
+<div class="z-20 p-4 bg-gray-800 opacity-90 h-full w-full">
+    <h1 class="w-full md:text-center font-bold">
+      {{ game.title }}
+    </h1>
+  
+    <div class="w-full flex items-center mt-4">
+      <img
+        class="rounded-full w-8 h-8"
+        src="../../../../../assets/default.jpg"
+        alt=""
+      />
+  
+      <p class="text-sm font-bold mx-2">You: {{ game.score }}</p>
+    </div>
+</div>
+
+<!-- ? Game icon -->
+  <h3
+    [class]="'block md:hidden z-10 opacity-5 absolute right-4 text-[6.5rem] icon text-center ' + game.icon"
+    [ngClass]="{ 'animate-pulse': game.isNew }"
+  ></h3>
+</div>

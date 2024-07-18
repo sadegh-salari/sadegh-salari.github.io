@@ -1,0 +1,6 @@
+<div class="flex flex-wrap">
+  @for (game of gameButtons; track game.title) {
+    <app-game-card [game]="game" (GameClicked)="gotoGame($event)" />
+  }
+</div>
+  <div class="overlay"></div>

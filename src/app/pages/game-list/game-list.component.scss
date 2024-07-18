@@ -1,0 +1,16 @@
+:host{
+    @apply w-full
+}
+
+.overlay {
+    background-image: url('../../../assets/bg.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: fixed;
+    width: 100dvw;
+    height: 100dvh;
+    top: 0;
+    left: 0;
+    filter: blur(4px);
+}
