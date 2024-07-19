@@ -1,6 +1,5 @@
-<div class="flex flex-wrap">
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4 p-2 bg-[#242B42] h-[100dvh] content-start">
   @for (game of gameButtons; track game.title) {
     <app-game-card [game]="game" (GameClicked)="gotoGame($event)" />
   }
 </div>
-  <div class="overlay"></div>

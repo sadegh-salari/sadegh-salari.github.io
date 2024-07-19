@@ -20,9 +20,22 @@ export class GameListComponent {
       title: 'Tic-Tac-Toe Game',
       url: 'xo',
       description: 'Tic-Tac-Toe Game with easy and hard mode',
-      icon: 'tic-tac-toe',
+      image: '/assets/tik-tak-toe.png',
+      isNew: false,
+      score: 0,
+      buttonText:'start',
+      isActive: true,
+    }
+    ,
+    {
+      title: 'Snake Game',
+      url: 'snake',
+      description: 'Snake Game with easy and hard mode',
+      image: '/assets/snake.jpg',
       isNew: true,
-      score: 0
+      score: 0,
+      buttonText:'Comming Soon',
+      isActive: false,
     },
   ]
 
@@ -31,6 +44,8 @@ export class GameListComponent {
   ) { }
 
   gotoGame(game?: IGame) {
-    this._router.navigate([game?.url],);
+    if(game?.isActive){
+      this._router.navigate([game?.url],);
+    }
   }
 }
