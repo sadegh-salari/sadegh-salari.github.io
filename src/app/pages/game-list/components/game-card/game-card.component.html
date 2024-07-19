@@ -1,12 +1,28 @@
-<div class="bg-[#2E3650] rounded-xl py-4 px-2 flex flex-wrap justify-center shadow-[0px_0px_4px_rgba(0,0,0,0.25)]">
+<div
+  class="bg-[#2E3650] rounded-xl py-4 px-2 flex flex-wrap justify-center shadow-[0px_0px_4px_rgba(0,0,0,0.25)]"
+>
   <p class="w-full text-[#B1B9D8] font-bold text-center">
     {{ game.title }}
   </p>
 
   <!-- ? Icon -->
-   <img class="w-20 h-20 my-4 rounded-full" src="{{game.image}}" [alt]="game.title">
+  <img
+    class="w-20 h-20 my-4 rounded-full"
+    src="{{ game.image }}"
+    [alt]="game.title"
+  />
 
-  <button class="w-full rounded-md font-bold bg-[#242B42] text-[#7F88A9] py-2" (click)="gotoGame()">
-  {{game.buttonText}}
+  <button
+    class="w-full rounded-md font-bold bg-[#242B42] text-[#7F88A9] py-2 flex items-center justify-center relative"
+    (click)="gotoGame()"
+  >
+    {{ game.buttonText }}
+    @if (game.isActive) {
+      <span class="mx-1 -mb-[2px] icon play animate-pulse text-[#10DCE9]"></span>
+     }
+
+    @if (game.isNew) {
+      <span class="w-2 h-2 rounded-full bg-[#10DCE9] animate-ping absolute top-0 right-0"></span>
+     }
   </button>
 </div>
