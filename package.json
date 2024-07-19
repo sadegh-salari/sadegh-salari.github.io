@@ -9,7 +9,7 @@
     "test": "ng test",
     "serve:ssr:game": "node dist/game/server/server.mjs",
     "build:github": "ng build --configuration production --output-path docs --base-href https://sadegh-salari.github.io/",
-    "deploy": "npx angular-cli-ghpages --dir=docs"
+    "deploy": "npx angular-cli-ghpages --dir=docs/browser"
   },
   "private": true,
   "dependencies": {
