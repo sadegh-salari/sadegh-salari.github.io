@@ -32,10 +32,10 @@ export class GameListComponent {
       url: 'snake',
       description: 'Snake Game with easy and hard mode',
       image: '/assets/snake.jpg',
-      isNew: false,
+      isNew: true,
       score: 0,
       buttonText:'Comming Soon',
-      isActive: false,
+      isActive: true,
     },
   ]
 

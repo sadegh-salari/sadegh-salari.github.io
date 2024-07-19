@@ -3,10 +3,15 @@ import { GameListComponent } from './pages/game-list/game-list.component';
 
 export const routes: Routes = [
     {
-        path:'',
+        path: '',
         component: GameListComponent
     },
     {
-        path: 'xo',        loadComponent: () => import('./pages/tic-tac-toe/tic-tac-toe.component').then(c => c.TicTacToeComponent)
+        path: 'xo',
+        loadComponent: () => import('./pages/tic-tac-toe/tic-tac-toe.component').then(c => c.TicTacToeComponent)
+    },
+    {
+        path: 'snake',
+        loadComponent: () => import('./pages/snake/snake.component').then(c => c.SnakeComponent)
     }
 ];
