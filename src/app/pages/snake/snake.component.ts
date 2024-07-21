@@ -35,7 +35,7 @@ export class SnakeComponent implements AfterViewInit {
   foodX: number = 0;
   foodY: number = 0;
 
-  speed: number = 20;
+  speed: number = 5;
 
   interval: any;
   isMobile: boolean;
