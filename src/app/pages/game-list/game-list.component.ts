@@ -21,7 +21,7 @@ export class GameListComponent {
       url: 'xo',
       description: 'Tic-Tac-Toe Game with easy and hard mode',
       image: '/assets/tik-tak-toe.png',
-      isNew: true,
+      isNew: false,
       score: 0,
       buttonText:'Play Now',
       isActive: true,
@@ -34,7 +34,7 @@ export class GameListComponent {
       image: '/assets/snake.jpg',
       isNew: true,
       score: 0,
-      buttonText:'Comming Soon',
+      buttonText:'Play Now',
       isActive: true,
     },
   ]
