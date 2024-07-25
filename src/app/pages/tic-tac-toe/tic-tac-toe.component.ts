@@ -17,6 +17,7 @@ export class TicTacToeComponent {
   currentPlayer?: string;
   winner?: string;
   gameOver: boolean = false;
+  wrongAction: boolean = false;
 
   constructor(
     private _router: Router,
@@ -39,17 +40,25 @@ export class TicTacToeComponent {
   }
 
   makeMove(row: number, col: number) {
-    if (!this.gameOver && this.board && this.board[row][col] === '' && !this.winner) {
-      this.board[row][col] = this.currentPlayer || '';
-      if (this.checkWinner()) {
-        this.winner = this.currentPlayer || '';
-      } else {
-        if (this._isDraw()) {
-          this.gameOver = true;
-          return;
+    if (this.board && this.board[row][col] === ''){
+      if (!this.gameOver && !this.winner) {
+        this.board[row][col] = this.currentPlayer || '';
+        if (this.checkWinner()) {
+          this.winner = this.currentPlayer || '';
+        } else {
+          if (this._isDraw()) {
+            this.gameOver = true;
+            return;
+          }
+          this.currentPlayer = this.currentPlayer === 'X' ? 'O' : 'X';
         }
-        this.currentPlayer = this.currentPlayer === 'X' ? 'O' : 'X';
       }
+    }
+    else{
+      this.wrongAction = true;
+      setTimeout(() => {
+        this.wrongAction = false;
+      }, 1500);
     }
   }
 

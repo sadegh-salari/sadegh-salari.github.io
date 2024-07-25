@@ -16,7 +16,9 @@
     class="flex flex-wrap w-full content-center justify-center h-[calc(100dvh-70px)] relative"
   >
     <!-- ? Board -->
-    <div class="inline-block">
+    <div class="inline-block"
+    [ngClass]="{'wrong-action': wrongAction}"
+    >
       @for (row of board; track row; let i = $index) { @if(i > 0){
       <div
         class="border-b-4 rounded-xl opacity-40 shadow-sm border-[#B1B9D8]"
@@ -31,6 +33,7 @@
           (click)="makeMove(i, j)"
         >
           <span
+          id="player"
             class="font-black opacity-60 duration-300"
             [ngClass]="
               board[i][j] === winner
@@ -50,13 +53,17 @@
 
     <!-- ? Winner Message -->
     @if(winner) {
-    <div class="flex flex-wrap w-full items-center justify-center absolute top-16">
+    <div
+      class="flex flex-wrap w-full items-center justify-center absolute top-16"
+    >
       <p class="text-green-200 text-2xl font-bold">{{ winner }} wins!</p>
     </div>
-    } 
-    @if(gameOver || winner) {
+    } @if(gameOver || winner) {
     <div class="w-full flex items-center justify-center absolute bottom-16">
-      <button class="border-2 border-gray-400 px-4 py-2 rounded-md text-white " (click)="newGame()">
+      <button
+        class="border-2 border-gray-400 px-4 py-2 rounded-md text-white"
+        (click)="newGame()"
+      >
         New Game
       </button>
     </div>
