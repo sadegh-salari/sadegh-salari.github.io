@@ -1,5 +1,5 @@
 <div
-  class="bg-[#2E3650] flex flex-wrap justify-center text-center h-[100dvh] content-between"
+  class="bg-[#2E3650] flex flex-wrap justify-center text-center h-[100dvh] content-between relative"
 >
   <!-- ? Header -->
   <div
@@ -11,14 +11,35 @@
     <h1 class="text-3xl text-gray-100 font-bold">Tic-Tac-Toe</h1>
   </div>
 
+  <!-- ? Winner Message -->
+  @if(winner) {
+  <div
+    class="flex flex-wrap w-full items-center justify-center absolute top-32"
+  >
+    <p class="text-green-200 text-2xl font-bold">{{ winner }} wins!</p>
+  </div>
+  } @if(gameOver || winner) {
+  <div class="w-full flex items-center justify-center absolute bottom-16 z-10">
+    <button
+      class="border-2 border-gray-400 px-4 py-2 rounded-md text-white cursor-pointer"
+      (click)="newGame()"
+    >
+      New Game
+    </button>
+  </div>
+  }
+
+  <!-- ? Next palyer -->
+   @if(!winner && !gameOver){
+    <span class="w-full text-center absolute top-32 text-gray-200 text-2xl font-bold">{{message}}</span>
+   }
+
   <!-- ? Game Container -->
   <div
     class="flex flex-wrap w-full content-center justify-center h-[calc(100dvh-70px)] relative"
   >
     <!-- ? Board -->
-    <div class="inline-block"
-    [ngClass]="{'wrong-action': wrongAction}"
-    >
+    <div class="inline-block" [ngClass]="{ 'wrong-action': wrongAction }">
       @for (row of board; track row; let i = $index) { @if(i > 0){
       <div
         class="border-b-4 rounded-xl opacity-40 shadow-sm border-[#B1B9D8]"
@@ -33,7 +54,7 @@
           (click)="makeMove(i, j)"
         >
           <span
-          id="player"
+            id="player"
             class="font-black opacity-60 duration-300"
             [ngClass]="
               board[i][j] === winner
@@ -50,23 +71,5 @@
       </div>
       }
     </div>
-
-    <!-- ? Winner Message -->
-    @if(winner) {
-    <div
-      class="flex flex-wrap w-full items-center justify-center absolute top-16"
-    >
-      <p class="text-green-200 text-2xl font-bold">{{ winner }} wins!</p>
-    </div>
-    } @if(gameOver || winner) {
-    <div class="w-full flex items-center justify-center absolute bottom-16">
-      <button
-        class="border-2 border-gray-400 px-4 py-2 rounded-md text-white"
-        (click)="newGame()"
-      >
-        New Game
-      </button>
-    </div>
-    }
   </div>
 </div>

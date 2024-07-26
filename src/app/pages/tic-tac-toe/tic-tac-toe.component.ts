@@ -18,6 +18,7 @@ export class TicTacToeComponent {
   winner?: string;
   gameOver: boolean = false;
   wrongAction: boolean = false;
+  message: string = '';
 
   constructor(
     private _router: Router,
@@ -29,6 +30,8 @@ export class TicTacToeComponent {
     this.board = this._createBoard();
     this.currentPlayer = 'X';
     this.winner = '';
+    this.gameOver = false;
+    this._updatePlayer();
   }
 
   private _createBoard(): string[][] {
@@ -40,10 +43,10 @@ export class TicTacToeComponent {
   }
 
   makeMove(row: number, col: number) {
-    if (this.board && this.board[row][col] === ''){
+    if (this.board && this.board[row][col] === '') {
       if (!this.gameOver && !this.winner) {
         this.board[row][col] = this.currentPlayer || '';
-        if (this.checkWinner()) {
+        if (this._checkWinner()) {
           this.winner = this.currentPlayer || '';
         } else {
           if (this._isDraw()) {
@@ -54,19 +57,20 @@ export class TicTacToeComponent {
         }
       }
     }
-    else{
+    else {
       this.wrongAction = true;
       setTimeout(() => {
         this.wrongAction = false;
       }, 1500);
     }
+    this._updatePlayer();
   }
 
   private _isDraw(): boolean {
     return this.board.every(row => row.every(cell => cell !== ''));
   }
 
-  checkWinner(): boolean {
+  private _checkWinner(): boolean {
     // Check rows, columns, and diagonals for a win
     const lines = [
       // Rows
@@ -83,6 +87,75 @@ export class TicTacToeComponent {
     ];
 
     return lines.some(line => line.every(cell => cell === this.currentPlayer));
+  }
+
+  private _computerMove() {
+    // ? Check possible moves
+    let userMoves = this._getUserMoves();
+    let possibleMoves = this._getPossibleMoves();
+    // ? Smart move
+    // const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+    // this.board[randomMove.row][randomMove.col] = 'O';
+
+    if (this._checkWinner()) {
+      this.winner = this.currentPlayer || '';
+    } else {
+      if (this._isDraw()) {
+        this.gameOver = true;
+        return;
+      }
+      this._makeSmartMove(possibleMoves, userMoves);
+      this.currentPlayer = this.currentPlayer === 'X' ? 'O' : 'X';
+    }
+    this._updatePlayer();
+  }
+
+  private _makeSmartMove(possibleMoves: { row: number, col: number }[], userMoves: { row: number, col: number }[]) {
+    let possibleUserMoves = possibleMoves.filter(move => !userMoves.some(userMove => userMove.row === move.row && userMove.col === move.col));
+    if (possibleUserMoves.length > 0) {
+      let randomMove = possibleUserMoves[Math.floor(Math.random() * possibleUserMoves.length)];
+      this.board[randomMove.row][randomMove.col] = 'O';
+    }
+  }
+
+  private _getPossibleMoves(): { row: number, col: number }[] {
+    // ? Check possible moves
+    let possibleMoves = [];
+    for (let i = 0; i < this.board.length; i++) {
+      for (let j = 0; j < this.board[i].length; j++) {
+        if (this.board[i][j] === '') {
+          possibleMoves.push({ row: i, col: j });
+        }
+      }
+    }
+    console.log(possibleMoves);
+    return possibleMoves;
+  }
+
+  private _getUserMoves(){
+    let userMoves = [];
+    for (let i = 0; i < this.board.length; i++) {
+      for (let j = 0; j < this.board[i].length; j++) {
+        if (this.board[i][j] === "X") {
+          userMoves.push({ row: i, col: j });
+        }
+      }
+    }
+    console.log(userMoves);
+    return userMoves;
+    
+  }
+
+  private _updatePlayer() {
+    if (this.currentPlayer === 'X') {
+      this.message = `It's your turn`;
+    }
+    else {
+      this.message = `It's computer turn`;
+      setTimeout(() => {
+        this._computerMove();
+      }, 1000);
+    }
   }
 
   goBack() {
