@@ -1,10 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-flappy-bird',
   standalone: true,
-  imports: [],
+  imports: [
+    CommonModule
+  ],
   templateUrl: './flappy-bird.component.html',
   styleUrl: './flappy-bird.component.scss'
 })
@@ -23,9 +26,6 @@ export class FlappyBirdComponent implements AfterViewInit {
   birdImage: any;
 
   bird: any;
-
-  // jump = 4.6;
-
   pipeArray: any[] = [];
   pipeWidth = 62;
   pipeHeight = 512;
@@ -42,6 +42,11 @@ export class FlappyBirdComponent implements AfterViewInit {
 
   gameOver = false;
   score = 0;
+  gameInterval: any;
+  clickHandller: any;
+  animationFrameId: number = 0;
+
+  gameStarted = false;
 
   constructor(
     private _router: Router,
@@ -74,31 +79,33 @@ export class FlappyBirdComponent implements AfterViewInit {
     this.bottomPipeImage.src = '../../../assets/flappy-bird/flappy-bird-pipe-bottom.png';
 
   }
-  
-  startGame(){    
-    requestAnimationFrame(this._update.bind(this));
-  
-    setInterval(() => {
-      this._generatePipe();
-    }, 1500);
-  
-    document.addEventListener('click', () => {
-      this.velocityY = -6;
-    });
 
-    if(this.gameOver){
-      this.score = 0;
-      this.gameOver = false;
-      this.pipeArray = [];
-      // this.velocityX = -2;
-      this.velocityY = 0;
-      this.bird.y = this.birdY;
+  startGame() {
+    this.gameOver = false;
+    this.gameStarted = true;
+    this.velocityX = -2; // Reset the horizontal velocity
+    this.velocityY = 0; // Reset the vertical velocity
+    this.animationFrameId = requestAnimationFrame(() => this._update());
+
+    this.gameInterval = setInterval(() => {
+      if (!this.gameOver) {
+        this._generatePipe();
+      }
+    }, 1500);
+
+    if (!this.clickHandller) {
+      this.clickHandller = document.addEventListener('click', () => {
+        this.velocityY = -6;
+      });
     }
   }
 
   private _update() {
-    requestAnimationFrame(this._update.bind(this));
+    console.log(`_update`);
+
+    this.animationFrameId = requestAnimationFrame(() => this._update());
     if (this.gameOver) {
+      this._resetGamePhysics();
       return;
     }
     this.context.clearRect(0, 0, this.board.width, this.board.height);
@@ -108,6 +115,7 @@ export class FlappyBirdComponent implements AfterViewInit {
     this.bird.y = Math.max(this.bird.y + this.velocityY, 0);
     this.context.drawImage(this.birdImage, this.bird.x, this.bird.y, this.bird.width, this.bird.height);
 
+    // ? Fall down
     if (this.bird.y > this.board.height) {
       this.gameOver = true;
     }
@@ -138,10 +146,12 @@ export class FlappyBirdComponent implements AfterViewInit {
     this.context.font = '30px Verdana';
     this.context.fillText(this.score, 20, 50);
 
+    // console.log(`Score: ${this.score} --- Velocity: ${this.velocityX} --- Gravity: ${this.gravity} --- BirdY: ${this.bird.y} --- PipeY: ${this.pipeY}`);
   }
 
   private _generatePipe() {
     if (this.gameOver) {
+      this._resetGamePhysics();
       return;
     }
 
@@ -173,11 +183,28 @@ export class FlappyBirdComponent implements AfterViewInit {
 
   }
 
-  private _detectCollision(bird: any, pipe: any): boolean {
-    return bird.x < pipe.x + pipe.width &&
-      bird.x + pipe.width > pipe.x &&
-      bird.y < pipe.y + pipe.height &&
-      bird.y + bird.height > pipe.y
+  private _detectCollision(a: any, b: any): boolean {
+    let collision = 
+      a.x < b.x + b.width &&
+      a.x + a.width > b.x &&
+      a.y < b.y + b.height &&
+      a.y + a.height > b.y;
+
+    return collision
+  }
+
+  private _resetGamePhysics() {
+    this.velocityX = -2;
+    this.velocityY = 0
+    this.gravity = 0.4;
+    this.bird.y = this.birdY;
+    this.pipeArray = [];
+    this.score = 0;
+    document.removeEventListener('click', this.clickHandller, true);
+    clearInterval(this.gameInterval);
+    cancelAnimationFrame(this.animationFrameId);
+    console.log(`reset game`);
+
   }
 
   goBack() {

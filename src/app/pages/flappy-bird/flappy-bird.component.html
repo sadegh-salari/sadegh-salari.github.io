@@ -14,12 +14,21 @@
   <div
     class="flex flex-wrap w-full content-center justify-center h-[calc(100dvh-70px)] relative"
   >
-    <canvas id="board"></canvas>
+    <canvas id="board"
+    [ngClass]="{'game-over': gameOver}"></canvas>
 
     <!-- ? start -->
-     <div class="w-full absolute top-auto left-auto flex items-center justify-center">
-        <button class="text-white border-2 py-2 px-4 border-gray-100" (click)="startGame()">Start</button>
-     </div>
+     @if(gameOver || !gameStarted) {
+       <div
+         class="w-full absolute top-[50%] flex items-center justify-center"
+       >
+         <button
+           class="text-white border-2 py-2 px-4 border-gray-100 rounded-xl"
+           (click)="startGame()"
+         >
+           Start
+         </button>
+       </div>
+     }
   </div>
-
 </div>
