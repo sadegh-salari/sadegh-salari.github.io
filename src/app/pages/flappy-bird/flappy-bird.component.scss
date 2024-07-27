@@ -1,0 +1,11 @@
+
+#board{
+    background-image: url('../../../assets/flappy-bird/bg.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.game-over{
+    filter: grayscale(1);
+}

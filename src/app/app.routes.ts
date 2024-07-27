@@ -13,5 +13,9 @@ export const routes: Routes = [
     {
         path: 'snake',
         loadComponent: () => import('./pages/snake/snake.component').then(c => c.SnakeComponent)
+    },
+    {
+        path: 'flappy-bird',
+        loadComponent: () => import('./pages/flappy-bird/flappy-bird.component').then(c => c.FlappyBirdComponent)
     }
 ];
