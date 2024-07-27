@@ -38,7 +38,7 @@ export class FlappyBirdComponent implements AfterViewInit {
   // ? Game Physics
   velocityX = -2; // * pixels per frame (Pipes speed to left) 
   velocityY = 0; // * Bird jump speed
-  gravity = 0.4;
+  gravity = 0.2;
 
   gameOver = false;
   score = 0;
@@ -95,7 +95,7 @@ export class FlappyBirdComponent implements AfterViewInit {
 
     if (!this.clickHandller) {
       this.clickHandller = document.addEventListener('click', () => {
-        this.velocityY = -6;
+        this.velocityY = -4;
       });
     }
   }
@@ -145,8 +145,6 @@ export class FlappyBirdComponent implements AfterViewInit {
     this.context.fillStyle = 'white';
     this.context.font = '30px Verdana';
     this.context.fillText(this.score, 20, 50);
-
-    // console.log(`Score: ${this.score} --- Velocity: ${this.velocityX} --- Gravity: ${this.gravity} --- BirdY: ${this.bird.y} --- PipeY: ${this.pipeY}`);
   }
 
   private _generatePipe() {
