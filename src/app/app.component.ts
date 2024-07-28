@@ -1,13 +1,27 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
+import { slideInAnimation } from '../utils/animations';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  animations:[
+    slideInAnimation
+  ],
+  template: `
+  <div [@routeAnimations]="getRouteAnimationData()">
+    <router-outlet></router-outlet>
+  </div>
+  `,
 })
 export class AppComponent {
-  title = 'game';
+
+  constructor(
+    private _contexts: ChildrenOutletContexts
+  ) { }
+
+  getRouteAnimationData() {
+    return this._contexts.getContext('primary')?.route?.snapshot?.data?.['animation']
+  }
 }
